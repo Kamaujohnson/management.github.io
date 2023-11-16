@@ -1,1 +1,1 @@
-# management.github.io/index.html
+# management.github.io
