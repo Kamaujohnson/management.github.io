@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamaa University Student Management System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-image: url('logo.png'); 
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+        }
+
+        h1 {
+            text-align: center;
+            background-color: #4CAF50; /* Replace with your desired background color */
+            color: white;
+            padding: 10px;
+        }
+
+        button {
+            display: block;
+            width: 100px;
+            margin-bottom: 20px;
+            
+        }
+
+        #studentForm,
+        #coursesList,
+        #applicationForm,
+        #unitsList,
+        #resultsPage {
+            display: none;
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: rgb(199, 192, 192); /* Set the background color for these sections */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button.form-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button.form-button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to the Student Management System</h1>
+
+    <div id="buttons">
+        <button onclick="showStudentForm()">Student</button>
+        <button onclick="showCourses()">Courses</button>
+        <button onclick="showApplicationForm()">Course Application</button>
+        <button onclick="showUnits()">Units</button>
+        <button onclick="showResults()">Results</button>
+        <button onclick="exitSystem()">Exit</button>
+    </div>
+
+    
+    <div id="studentForm">
+        <h2>Student Information</h2>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="regNumber">Registration Number:</label>
+            <input type="text" id="regNumber" name="regNumber" required>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <button type="button" class="form-button" onclick="saveStudentDetails()">Save</button>
+        </form>
+    </div>
+
+    
+    <div id="coursesList">
+        <h2>Available Courses</h2>
+        <ul>
+            <li><b>1.</b>Bachelor of Science in Information Technology</li>
+            <li><b>2.</b>Bachelor of Science in Computer Science</li>
+            <li><b>3.</b>Bachelor of Business and Information Technology</li>
+            <li><b>4.</b>Bachelor of Education</li>
+            <li><b>5.</b>Law</li>
+            <li><b>6.</b>Industrial Chemistry</li>
+            <li><b>7.</b>Nursing</li>
+            <li><b>8.</b>Agricultural Science</li>
+            <li><b>9.</b>Automotive Engineering</li>
+            <li><b>10.</b>Bachelor of Commerce</li>
+        </ul>
+    </div>
+
+    
+    <div id="applicationForm">
+        <h2>Course Application</h2>
+        <form>
+            <label for="applicantName">Applicant's Name:</label>
+            <input type="text" id="applicantName" name="applicantName" required>
+
+            <label for="selectedCourse">Select Course:</label>
+            <select id="selectedCourse" name="selectedCourse" required>
+                <option value="" disabled selected>Select a course</option>
+                <option value="IT">Bachelor of Science in Information Technology</option>
+                <option value="CS">Bachelor of Science in Computer Science</option>
+                <option value="BIT">Bachelor of Business and Information Technology</option>
+                <option value="Edu">Bachelor of Education</option>
+                <option value="Law">Law</option>
+                <option value="Chem">Industrial Chemistry</option>
+                <option value="Nurs">Nursing</option>
+                <option value="Agri">Agricultural Science</option>
+                <option value="Auto">Automotive Engineering</option>
+                <option value="Comm">Bachelor of Commerce</option>
+            </select>
+
+            <label for="additionalInfo">Additional Information:</label>
+            <textarea id="additionalInfo" name="additionalInfo" rows="4"></textarea>
+
+            <button type="button" class="form-button" onclick="submitApplication()">Submit Application</button>
+        </form>
+    </div>
+
+    <!-- Units List -->
+    <div id="unitsList">
+        <h2>Available Units</h2>
+        <p>Select up to 5 units for the chosen course:</p>
+        <form>
+            <label for="selectedCourseUnits">Select Course:</label>
+            <select id="selectedCourseUnits" name="selectedCourseUnits" onchange="loadUnits()">
+                <option value="" disabled selected>Select a course</option>
+                <option value="IT">Bachelor of Science in Information Technology</option>
+                <option value="CS">Bachelor of Science in Computer Science</option>
+                <option value="BIT">Bachelor of Business and Information Technology</option>
+                <!-- Add options for other courses as needed -->
+            </select>
+
+            <fieldset id="unitSelection" style="display: none;">
+                <legend>Select Units:</legend>
+                <input type="checkbox" id="unit1" name="unit" value="Internet of Things">
+                <label for="unit1">Internet of Things</label><br>
+
+                <input type="checkbox" id="unit2" name="unit" value="Cloud Computing">
+                <label for="unit2">Cloud Computing</label><br>
+
+                <input type="checkbox" id="unit3" name="unit" value="ERP Systems">
+                <label for="unit3">ERP Systems</label><br>
+
+                <input type="checkbox" id="unit4" name="unit" value="Web Development">
+                <label for="unit4">Web Development</label><br>
+
+                <input type="checkbox" id="unit5" name="unit" value="Multimedia Application">
+                <label for="unit5">Multimedia Application</label><br>
+
+                <input type="checkbox" id="unit6" name="unit" value="Mobile Application Programming">
+                <label for="unit6">Mobile Application Programming</label><br>
+
+                <input type="checkbox" id="unit7" name="unit" value="Networking">
+                <label for="unit7">Networking</label><br>
+
+                <input type="checkbox" id="unit8" name="unit" value="Graphic Design">
+                <label for="unit8">Graphic Design</label><br>
+            </fieldset>
+
+            <button type="button" class="form-button" onclick="submitUnitSelection()">Submit Units</button>
+        </form>
+    </div>
+
+    <!-- Results Page -->
+    <div id="resultsPage">
+        <h2>Results</h2>
+        <form>
+            <label for="yearOfStudy">Year of Study:</label>
+            <input type="text" id="yearOfStudy" name="yearOfStudy" required>
+
+            <label for="semesterOfStudy">Semester of Study:</label>
+            <input type="text" id="semesterOfStudy" name="semesterOfStudy" required>
+
+            <label for="resultCourse">Course:</label>
+            <input type="text" id="resultCourse" name="resultCourse" readonly>
+
+            <!-- Display student details -->
+            <label for="resultStudentName">Student's Name:</label>
+            <input type="text" id="resultStudentName" name="resultStudentName" readonly>
+
+            <label for="resultRegNumber">Registration Number:</label>
+            <input type="text" id="resultRegNumber" name="resultRegNumber" readonly>
+
+            <label for="resultEmail">Email Address:</label>
+            <input type="text" id="resultEmail" name="resultEmail" readonly>
+
+            <label for="resultPhone">Phone Number:</label>
+            <input type="text" id="resultPhone" name="resultPhone" readonly>
+
+            <!-- Results will be displayed here based on the selected parameters -->
+
+            <button type="button" class="form-button" onclick="generateResults()">Generate Results</button>
+        </form>
+    </div>
+
+    <script>
+        function showStudentForm() {
+            document.getElementById("studentForm").style.display = "block";
+            document.getElementById("coursesList").style.display = "none";
+            document.getElementById("applicationForm").style.display = "none";
+            document.getElementById("unitsList").style.display = "none";
+            document.getElementById("resultsPage").style.display = "none";
+        }
+
+        function showCourses() {
+            document.getElementById("coursesList").style.display = "block";
+            document.getElementById("studentForm").style.display = "none";
+            document.getElementById("applicationForm").style.display = "none";
+            document.getElementById("unitsList").style.display = "none";
+            document.getElementById("resultsPage").style.display = "none";
+        }
+
+        function showApplicationForm() {
+            document.getElementById("applicationForm").style.display = "block";
+            document.getElementById("studentForm").style.display = "none";
+            document.getElementById("coursesList").style.display = "none";
+            document.getElementById("unitsList").style.display = "none";
+            document.getElementById("resultsPage").style.display = "none";
+        }
+
+        function showUnits() {
+            document.getElementById("unitsList").style.display = "block";
+            document.getElementById("studentForm").style.display = "none";
+            document.getElementById("coursesList").style.display = "none";
+            document.getElementById("applicationForm").style.display = "none";
+            document.getElementById("resultsPage").style.display = "none";
+        }
+
+        function showResults() {
+            document.getElementById("resultsPage").style.display = "block";
+            document.getElementById("studentForm").style.display = "none";
+            document.getElementById("coursesList").style.display = "none";
+            document.getElementById("applicationForm").style.display = "none";
+            document.getElementById("unitsList").style.display = "none";
+        }
+
+        function exitSystem() {
+            // Add functionality for exiting the system
+            alert("Exiting System");
+        }
+
+        function saveStudentDetails() {
+            // Add functionality to save student details to the backend
+            alert("Student details saved!");
+        }
+
+        function submitApplication() {
+            // Add functionality to submit course application
+            alert("Application submitted!");
+        }
+
+        function loadUnits() {
+            var selectedCourse = document.getElementById("selectedCourseUnits").value;
+            var unitSelectionFieldset = document.getElementById("unitSelection");
+
+            if (selectedCourse) {
+                unitSelectionFieldset.style.display = "block";
+            } else {
+                unitSelectionFieldset.style.display = "none";
+            }
+        }
+
+        function submitUnitSelection() {
+            // Add functionality to submit selected units
+            var selectedUnits = [];
+            var checkboxes = document.querySelectorAll('input[name="unit"]:checked');
+            checkboxes.forEach(function(checkbox) {
+                selectedUnits.push(checkbox.value);
+            });
+            alert("Selected Units: " + selectedUnits.join(", "));
+        }
+
+        function generateResults() {
+            // Simulate generating results based on selected parameters
+            var yearOfStudy = document.getElementById("yearOfStudy").value;
+            var semesterOfStudy = document.getElementById("semesterOfStudy").value;
+            var resultCourse = document.getElementById("selectedCourseUnits").value;
+
+            // Display student details
+            document.getElementById("resultStudentName").value = document.getElementById("name").value;
+            document.getElementById("resultRegNumber").value = document.getElementById("regNumber").value;
+            document.getElementById("resultEmail").value = document.getElementById("email").value;
+            document.getElementById("resultPhone").value = document.getElementById("phone").value;
+            document.getElementById("resultCourse").value = resultCourse;
+
+            // Simulate results for demonstration purposes
+            var results = [
+                { unit: "Internet of Things", grade: "A" },
+                { unit: "Cloud Computing", grade: "B" },
+                { unit: "ERP Systems", grade: "A-" },
+                { unit: "Web Development", grade: "B+" },
+                { unit: "Multimedia Application", grade: "A" }
+            ];
+
+            // Display results
+            var resultsContainer = document.createElement("div");
+            results.forEach(function (result) {
+                var resultItem = document.createElement("p");
+                resultItem.textContent = result.unit + ": " + result.grade;
+                resultsContainer.appendChild(resultItem);
+            });
+
+            document.getElementById("resultsPage").appendChild(resultsContainer);
+            
+        }
+        
+    </script>
+
+</body>
+</html>
